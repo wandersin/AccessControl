@@ -7,6 +7,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import vip.mrtree.access.annotation.ParameterCheck;
 import vip.mrtree.access.annotation.Rule;
+import vip.mrtree.access.bean.AccessControlException;
 import vip.mrtree.access.bean.CheckResult;
 import vip.mrtree.access.bean.CheckRuleCollection;
 import vip.mrtree.access.interfact.CheckRule;
@@ -48,8 +49,14 @@ public class ParameterCheckAop {
                     CheckResult check = rule.check(args[i], parameters[i].getType(), str);
                     if (!check.isFlag()) {
                         // 校验未通过
-                        String message = String.format(Locale.ROOT, "参数 %s 的 @%s 校验未通过.", parameters[i].getName(), annotation.annotationType().getSimpleName());
-                        throw new RuntimeException(message);
+                        String message = String.format(Locale.ROOT,
+                            "参数校验失败: %s.%s() - @%s %s %s.",
+                            methodSignature.getDeclaringTypeName(),
+                            methodSignature.getName(),
+                            annotation.annotationType().getSimpleName(),
+                            parameters[i].getType().getSimpleName(),
+                            parameters[i].getName());
+                        throw new AccessControlException(message);
                     }
                 }
             }
