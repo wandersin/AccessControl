@@ -4,10 +4,10 @@ import vip.mrtree.access.annotation.Rule;
 
 import java.lang.annotation.*;
 
-@Rule("empty")
+@Rule("MaxNum")
 @Documented
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.PACKAGE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Empty {
-
+public @interface MaxNum {
+    String value();
 }

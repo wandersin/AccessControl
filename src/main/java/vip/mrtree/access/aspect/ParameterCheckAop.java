@@ -16,6 +16,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Locale;
 
 @Aspect
 @Component
@@ -45,9 +46,10 @@ public class ParameterCheckAop {
                         // 不需要额外的表达式
                     }
                     CheckResult check = rule.check(args[i], parameters[i].getType(), str);
-                    if (!check.isResult()) {
+                    if (!check.isFlag()) {
                         // 校验未通过
-                        throw new RuntimeException("框架校验未通过");
+                        String message = String.format(Locale.ROOT, "参数 %s 的 @%s 校验未通过.", parameters[i].getName(), annotation.annotationType().getSimpleName());
+                        throw new RuntimeException(message);
                     }
                 }
             }

@@ -20,7 +20,7 @@ public interface CheckRule {
      * @param rule 校验规则的字符串表达式
      * @return 校验结果
      */
-    CheckResult check(Object obj, Class<?> clazz, String rule) throws Throwable;
+    CheckResult check(Object obj, Class<?> clazz, String rule);
 
     /**
      * 校验规则的名称
